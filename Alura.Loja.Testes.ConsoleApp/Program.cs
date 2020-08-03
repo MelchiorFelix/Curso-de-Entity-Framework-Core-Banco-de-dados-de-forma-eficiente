@@ -11,8 +11,39 @@ namespace Alura.Loja.Testes.ConsoleApp
         static void Main(string[] args)
         {
             //GravarUsandoAdoNet();
-            GravarUsandoEntity();
+            //GravarUsandoEntity();
+            RecuperaProdutos();
+            //ExcluirProdutos();
         }
+
+        private static void ExcluirProdutos()
+        {
+            using (var contexto = new LojaContext())
+            {
+                IList<Produto> produtos = contexto.Produtos.ToList();
+                foreach (var item in produtos)
+                {
+                    contexto.Produtos.Remove(item);
+                }
+                contexto.SaveChanges();
+            }
+        }
+
+        private static void RecuperaProdutos()
+        {
+            using (var contexto = new LojaContext())
+            {
+                IList<Produto> produtos = contexto.Produtos.ToList();
+                Console.WriteLine("Foram encontrados {0} produto(s)", produtos.Count);
+                foreach (var item in produtos)
+                {
+                    Console.WriteLine(item.Nome);
+                    Console.ReadLine();
+                }
+            }
+        }
+
+        
 
         private static void GravarUsandoEntity()
         {
