@@ -12,20 +12,40 @@ namespace Alura.Loja.Testes.ConsoleApp
         {
             //GravarUsandoAdoNet();
             //GravarUsandoEntity();
-            RecuperaProdutos();
+            //RecuperaProdutos();
             //ExcluirProdutos();
+            //RecuperaProdutos();
+            AtualizarProduto();
+        }
+
+        private static void AtualizarProduto()
+        {
+            // incluir um produto
+            GravarUsandoEntity();
+            RecuperaProdutos();
+            // atualiazar o produto
+            using (var repo = new LojaContext())
+            {
+                Produto primeiro = repo.Produtos.First();
+                primeiro.Nome = "Harry Poter - Editado";
+                repo.Produtos.Update(primeiro);
+                repo.SaveChanges();
+
+            }
+            RecuperaProdutos();
         }
 
         private static void ExcluirProdutos()
         {
-            using (var contexto = new LojaContext())
+            using (var repo = new LojaContext())
             {
-                IList<Produto> produtos = contexto.Produtos.ToList();
+                IList<Produto> produtos = repo.Produtos.ToList();
                 foreach (var item in produtos)
                 {
-                    contexto.Produtos.Remove(item);
+                    repo.Produtos.Remove(item);
                 }
-                contexto.SaveChanges();
+
+                repo.SaveChanges();
             }
         }
 
